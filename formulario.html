@@ -5,16 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulario de Envío</title>
-    <link rel="stylesheet" href="formularioestilos.css"> 
+    <link rel="stylesheet" href="formularioestilos.css">
+    <link rel="stylesheet" href="estilosmuestra.css">
 </head>
 
 <body>
-
     <main class="container">
         <h1>Formulario de Envío</h1>
-        <form id="envioForm" action="procesar_formulario.php" method="POST">
-
-            <!-- datos del formulario -->
+        <form id="envioForm">
+            <!-- Datos del formulario -->
             <label for="nombre">Nombre:</label>
             <input type="text" id="nombre" name="nombre" required>
 
@@ -31,12 +30,55 @@
             <input type="number" id="peso" name="peso" step="0.01" required>
 
             <!-- Elemento para mostrar el precio -->
-            <div id="precioContainer"></div>
+            <div id="resultado"></div>
 
-            <button type="submit">Enviar</button>
+            <button type="button" onclick="calcularTotal()">Calcular Total</button>
         </form>
     </main>
-   
+
+    <!-- Incluir el código JavaScript directamente en el archivo HTML -->
+    <script>
+        function calcularTotal() {
+            // Obtener los datos del formulario
+            const nombre = document.getElementById('nombre').value;
+            const edad = document.getElementById('edad').value;
+            const direccion_usa = document.getElementById('direccion_usa').value;
+            const direccion_gt = document.getElementById('direccion_gt').value;
+            const peso = parseFloat(document.getElementById('peso').value);
+
+            // Verificar que el peso sea un número válido
+            if (isNaN(peso) || peso < 0) {
+                alert('Por favor, ingrese un peso válido.');
+                return;
+            }
+
+            let precio;
+
+            // Calcular el precio basado en el peso
+            if (peso >= 0 && peso <= 1) {
+                precio = 419.91;
+            } else if (peso > 1 && peso <= 5) {
+                precio = 653;
+            } else if (peso > 5 && peso <= 10) {
+                precio = 1042;
+            } else if (peso > 10 && peso <= 20) {
+                precio = 1819;
+            } else {
+                precio = 1819 + ((peso - 20) * 77.76);
+            }
+
+            // Mostrar los datos ingresados y el total de la compra
+            const resultado = `
+                <p>Nombre: ${nombre}</p>
+                <p>Edad: ${edad}</p>
+                <p>Dirección en Estados Unidos: ${direccion_usa}</p>
+                <p>Dirección en Guatemala: ${direccion_gt}</p>
+                <p>Peso: ${peso} kg</p>
+                <p>Total de la compra: Q ${precio.toFixed(2)}</p>
+            `;
+            document.getElementById('resultado').innerHTML = resultado;
+        }
+    </script>
 </body>
 
 </html>
